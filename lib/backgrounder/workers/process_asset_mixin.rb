@@ -22,10 +22,12 @@ module CarrierWave
           pp 'in'
           record.send(:"process_#{column}_upload=", true)
           pp 'zzz'
-          z = record.send(:"#{column}").recreate_versions! && record.respond_to?(:"#{column}_processing")
-          pp record.respond_to?(:"#{column}_processing")
+          x = record.send(:"#{column}").recreate_versions!
+          y = record.respond_to?(:"#{column}_processing")
+          pp x
+          pp y
           pp 'V'
-          if record.send(:"#{column}").recreate_versions! && record.respond_to?(:"#{column}_processing")
+          if x && y
             pp "good"
             pp "My args: #{args.inspect}"
             record.update_attribute :"#{column}_processing", false
