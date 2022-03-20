@@ -12,16 +12,27 @@ module CarrierWave
       def perform(*args)
         record = super(*args)
 
-        if record && record.send(:"#{column}").present?
+        x = record && record && record.send(:"#{column}").present?
+        pp 'before'
+        pp record.inspect
+        pp record.send(:"#{column}").present?
+        
+        
+        if x
+          pp 'in'
           record.send(:"process_#{column}_upload=", true)
+          pp 'zzz'
+          z = record.send(:"#{column}").recreate_versions! && record.respond_to?(:"#{column}_processing")
+          pp record.respond_to?(:"#{column}_processing")
+          pp 'V'
           if record.send(:"#{column}").recreate_versions! && record.respond_to?(:"#{column}_processing")
-            logger.debug { "good" }
-            logger.debug { "My args: #{args.inspect}" }
+            pp "good"
+            pp "My args: #{args.inspect}"
             record.update_attribute :"#{column}_processing", false
           end
         else
-          logger.debug { "notready" }
-          logger.debug { "My args: #{args.inspect}" }
+          pp "not ready"
+          pp "My args: #{args.inspect}"
           when_not_ready
         end
       end
