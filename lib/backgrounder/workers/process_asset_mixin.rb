@@ -22,7 +22,7 @@ module CarrierWave
           pp 'in'
           record.send(:"process_#{column}_upload=", true)
           pp 'zzz'
-          x = record.send(:"#{column}").recreate_versions!
+          x = record.send(:"#{column}").recreate_versions!(record.send(:"#{column}").keys)
           y = record.respond_to?(:"#{column}_processing")
           pp x
           pp y
