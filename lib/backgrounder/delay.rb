@@ -7,6 +7,8 @@ module CarrierWave
       end
 
       def store_versions!(*args)
+        pp 'store!'
+        pp args
         super if proceed_with_versioning?
       end
 
